@@ -10,7 +10,7 @@ services:
      - "2200:22"
      - "3000:3000"
 
-  alphaclient1:
+  alphaclient:
     image: alphaapp
     build: .
     command: ./init.sh
@@ -19,18 +19,7 @@ services:
     networks:
      - alphanet
     ports:
-     - "2201:22"
-
-  alphaclient2:
-    image: alphaapp
-    build: .
-    command: ./init.sh
-    depends_on: 
-      - alphaserver
-    networks:
-     - alphanet
-    ports:
-     - "2202:22"
+     - "22"
 
 networks:
  alphanet:
