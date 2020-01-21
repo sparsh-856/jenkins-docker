@@ -16,7 +16,8 @@ COPY package-lock.json /app
 
 RUN npm ci --production
 
-# Bundle app sources
+# Bundle app sources and add docker-compose .env file
 COPY . /app
+COPY .env.example /app/.env
 
 EXPOSE 3000 22
