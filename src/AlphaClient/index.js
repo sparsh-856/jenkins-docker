@@ -26,7 +26,11 @@ socket.on("connect", () => {
   
         curr_data = buffer.toString();
         console.log(curr_data);
-        if (prev_data.includes('Invalid user') && curr_data.includes('Connection closed')){
+        if (prev_data.includes('Failed none') && curr_data.includes('Connection closed')){
+            numberOfAttpemts = numberOfAttpemts + 1;
+            socket.emit('attempts',numberOfAttpemts);
+        }
+        else if (prev_data.includes('Invalid user') && curr_data.includes('Connection closed')){
             numberOfAttpemts = numberOfAttpemts + 1;
             socket.emit('attempts',numberOfAttpemts);
         }
