@@ -19,14 +19,15 @@ socket.on("connect", () => {
     const fs = require('fs');
     const TailingReadableStream = require('tailing-stream');
     let numberOfAttpemts = 0;
-    const stream = TailingReadableStream.createReadStream("auth.log", {timeout: 0});
+    const stream = TailingReadableStream.createReadStream(process.env.AUTH_LOG_FILE, {timeout: 0});
 
     stream.on('data', buffer => {
         file_data = buffer.toString();
         if (file_data.includes('Failed password')){
             numberOfAttpemts = numberOfAttpemts + 1;
+            socket.emit('attempts',numberOfAttpemts);
         }
-        socket.emit('attempts',numberOfAttpemts);
+        
 
     });
     stream.on('close', () => {
