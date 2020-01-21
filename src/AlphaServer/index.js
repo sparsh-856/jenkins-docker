@@ -1,15 +1,37 @@
-var app = require('express')();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+const
+    http = require("http"),
+    express = require("express"),
+    socketio = require("socket.io");
 
-app.get('/', function(req, res){
-  res.send('<h1>Bingo!</h1>');
-});
+const SERVER_PORT = 3000;
 
-io.on('connection', function(socket){
-  console.log('a new connection made');
-});
+let alphaClients = new Set();
 
-http.listen(3000, function(){
-  console.log('Server running on *:3000');
-});
+
+function onNewWebsocketConnection(socket) {
+    console.info(`Socket ${socket.id} has connected.`);
+    alphaClients.add(socket.id);
+
+    socket.on("disconnect", () => {
+      alphaClients.delete(socket.id);
+        console.info(`Socket ${socket.id} has disconnected.`);
+    });
+
+  }
+
+  function startServer() {
+      // create a new express app
+      const app = express();
+      // create http server and wrap the express app
+      const server = http.createServer(app);
+      // bind socket.io to that server
+      const io = socketio(server);
+  
+      // will fire for every new websocket connection
+      io.on("connection", onNewWebsocketConnection);
+
+      server.listen(SERVER_PORT, () => console.info(`Listening on port ${SERVER_PORT}.`));
+
+  }
+  
+startServer();

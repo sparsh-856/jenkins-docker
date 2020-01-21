@@ -1,3 +1,3 @@
-import * as io from "socket.io-client";
-
-var socket = io();
+const 
+    io = require ("socket.io-client"),
+    socket = io.connect("http://localhost:3000");

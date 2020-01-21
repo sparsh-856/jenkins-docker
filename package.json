@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "commit": "git-cz",
-    "start:server": "node src/AlphaServer/index.js",
-    "start:client": "node src/AlphaClient/index.js"
+    "server": "node src/AlphaServer/index.js",
+    "client": "node src/AlphaClient/index.js"
   },
   "author": "Edwin Philip",
   "license": "ISC",
