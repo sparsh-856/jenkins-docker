@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "express": "^4.15.2",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "tailing-stream": "^0.2.0"
   }
 }

@@ -1,0 +1,36 @@
+version: '3'
+services:
+  alphaserver:
+    image: alphaapp
+    build: .
+    command: npm run server
+    networks:
+     - alphanet
+    ports:
+     - "2200:22"
+     - "3000:3000"
+
+  alphaclient1:
+    image: alphaapp
+    build: .
+    command: ./init.sh
+    depends_on: 
+      - alphaserver
+    networks:
+     - alphanet
+    ports:
+     - "2201:22"
+
+  alphaclient2:
+    image: alphaapp
+    build: .
+    command: ./init.sh
+    depends_on: 
+      - alphaserver
+    networks:
+     - alphanet
+    ports:
+     - "2202:22"
+
+networks:
+ alphanet:
