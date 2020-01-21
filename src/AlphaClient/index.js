@@ -16,18 +16,25 @@ const
 
 socket.on("connect", () => {
     socket.emit('client connected', hostname);
+    var prev_data = ''; 
     const fs = require('fs');
     const TailingReadableStream = require('tailing-stream');
     let numberOfAttpemts = 0;
     const stream = TailingReadableStream.createReadStream(process.env.AUTH_LOG_FILE, {timeout: 0});
 
     stream.on('data', buffer => {
-        file_data = buffer.toString();
-        if (file_data.includes('Failed password')){
+  
+        curr_data = buffer.toString();
+        console.log(curr_data);
+        if (prev_data.includes('Invalid user') && curr_data.includes('Connection closed')){
             numberOfAttpemts = numberOfAttpemts + 1;
             socket.emit('attempts',numberOfAttpemts);
         }
-        
+        else if (curr_data.includes('Failed password')){
+            numberOfAttpemts = numberOfAttpemts + 1;
+            socket.emit('attempts',numberOfAttpemts);
+        }
+        prev_data = curr_data;
 
     });
     stream.on('close', () => {
