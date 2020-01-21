@@ -1,0 +1,22 @@
+{
+  "name": "alphasolution",
+  "version": "1.0.0",
+  "description": "SSH login monitor server and client",
+  "main": "app.js",
+  "scripts": {
+    "commit": "git-cz"
+  },
+  "author": "Edwin Philip",
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.0.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
