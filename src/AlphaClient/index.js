@@ -34,6 +34,14 @@ socket.on("connect", () => {
             numberOfAttpemts = numberOfAttpemts + 1;
             socket.emit('attempts',numberOfAttpemts);
         }
+        else if (curr_data.includes('error: Authentication key')){
+            numberOfAttpemts = numberOfAttpemts + 1;
+            socket.emit('attempts',numberOfAttpemts);
+        }
+        else if (curr_data.includes('Failed publickey')){
+            numberOfAttpemts = numberOfAttpemts + 1;
+            socket.emit('attempts',numberOfAttpemts);
+        }
         prev_data = curr_data;
 
     });
