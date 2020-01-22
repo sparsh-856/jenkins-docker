@@ -6,7 +6,8 @@
   "scripts": {
     "commit": "git-cz",
     "server": "node src/AlphaServer/index.js",
-    "client": "node src/AlphaClient/index.js"
+    "client": "node src/AlphaClient/index.js",
+    "test": "mocha test/test.js --exit"
   },
   "author": "Edwin Philip",
   "license": "ISC",
@@ -29,6 +30,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.15.2",
+    "mocha": "^7.0.0",
     "socket.io": "^2.3.0",
     "tailing-stream": "^0.2.0"
   }

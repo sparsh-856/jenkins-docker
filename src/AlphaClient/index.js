@@ -33,23 +33,23 @@ socket.on("connect", () => {
         console.log(curr_data);
         if (prev_data.includes('Failed none') && curr_data.includes('Connection closed')){
             numberOfAttpemts = numberOfAttpemts + 1;
-            socket.emit('attempts',numberOfAttpemts);
+            socket.emit('attempts',hostname,numberOfAttpemts);
         }
         else if (prev_data.includes('Invalid user') && curr_data.includes('Connection closed')){
             numberOfAttpemts = numberOfAttpemts + 1;
-            socket.emit('attempts',numberOfAttpemts);
+            socket.emit('attempts',hostname,numberOfAttpemts);
         }
         else if (curr_data.includes('Failed password')){
             numberOfAttpemts = numberOfAttpemts + 1;
-            socket.emit('attempts',numberOfAttpemts);
+            socket.emit('attempts',hostname,numberOfAttpemts);
         }
         else if (curr_data.includes('error: Authentication key')){
             numberOfAttpemts = numberOfAttpemts + 1;
-            socket.emit('attempts',numberOfAttpemts);
+            socket.emit('attempts',hostname,numberOfAttpemts);
         }
         else if (curr_data.includes('Failed publickey')){
             numberOfAttpemts = numberOfAttpemts + 1;
-            socket.emit('attempts',numberOfAttpemts);
+            socket.emit('attempts',hostname,numberOfAttpemts);
         }
         prev_data = curr_data;
         }

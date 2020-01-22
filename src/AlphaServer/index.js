@@ -9,21 +9,15 @@ let alphaClients = new Map();
 
 
 function onNewWebsocketConnection(socket) {
-    let host_name;
     let numberOfAttpemts = 0;
     socket.on('client connected', function(hostname){
       alphaClients.set(hostname,numberOfAttpemts);
-      host_name = hostname;
-      console.log('* node '+ host_name +' had '+numberOfAttpemts+ ' attempt');
+      console.log('* node '+ hostname +' had '+numberOfAttpemts+ ' attempt');
     });
 
-    socket.on('attempts',function(numberOfAttpemts){
-      alphaClients.set(host_name,numberOfAttpemts)
-      console.log('* node '+ host_name +' had '+numberOfAttpemts+ ' attempt');
-    });
-
-    socket.on("disconnect", () => {
-      alphaClients.delete(socket.id);
+    socket.on('attempts',function(hostname,numberOfAttpemts){
+      alphaClients.set(hostname,numberOfAttpemts)
+      console.log('* node '+ hostname +' had '+numberOfAttpemts+ ' attempt');
     });
 
   }
