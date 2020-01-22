@@ -109,6 +109,12 @@ Also commitizen is used to provide a cli for commit standards to choose from. Ho
 
 ## Test
 
+Start the server...
+
+```
+npm start server
+```
+To Run test, open a new terminal and Run ...
 ```
 npm test
 ```
@@ -118,6 +124,9 @@ npm test
 For deploying the whole setup in local machine and automatically create server and clients, we use Docker Compose tool.
 
 #### Run the following single command to build docker images, run the server and 2 node client apps automatically
+
+1. Docker Compose - Local Dev Docker Mode
+2. Skaffold - Cluster Deployment
 
 ##### Docker-Compose
 ```
