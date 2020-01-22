@@ -7,7 +7,6 @@ services:
     networks:
      - alphanet
     ports:
-     - "2200:22"
      - "3000:3000"
 
   alphaclient:

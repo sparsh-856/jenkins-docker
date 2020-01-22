@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alphaserver
+  labels:
+    app: alphaserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alphaserver
+  template:
+    metadata:
+      labels:
+        app: alphaserver
+    spec:
+      containers:
+      - name: alphaserver
+        image: alphaserver
+        ports:
+          - name: http
+            containerPort: 3000
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: alphaserver
+ labels:
+  app: alphaserver
+spec:
+ type: NodePort
+ ports:
+ - port: 3000
+   targetPort: 3000
+   protocol: TCP
+ selector:
+  app: alphaserver

@@ -1,0 +1,44 @@
+apiVersion: skaffold/v2alpha2
+kind: Config
+metadata:
+  name: alphasolution
+build:
+  local:
+    push: false
+  artifacts:
+  - image: alphaserver
+    # sync:
+    #     manual:
+    #     - src: 'src/**/*.js'
+    #       dest: src
+    #       strip: 'src/'
+    context: .
+    docker:
+        dockerfile: Dockerfile-server
+  - image: alphaclient
+    context: .
+    # sync:
+    #     manual:
+    #     - src: 'src/**/*.js'
+    #       dest: src
+    #       strip: 'src/'
+    docker:
+        dockerfile: Dockerfile-client
+deploy:
+  kubectl:
+    manifests:
+    - kubernetes/server-deployment.yaml
+    - kubernetes/client-deployment1.yaml
+    - kubernetes/client-deployment2.yaml
+# profiles:  
+# - name: dev
+#   build:
+#     artifacts:
+#     - image: alphaapp
+#       sync:
+#         manual:
+#         - src: 'src/**/*.js'
+#           dest: src
+#           strip: 'src/'
+#       docker:
+#         dockerfile: Dockerfile

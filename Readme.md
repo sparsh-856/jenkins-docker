@@ -25,6 +25,7 @@ ALPHASERVER_PROTOCOL=http
 # Note: If you are running server and client in local machine, set ALPHASERVER_HOSTNAME = localhost. If running the setup using
 # docker-compose as shown in the later section of this Readme, set ALPHASERVER_HOSTNAME = alphasolution_alphaserver_1 as the container
 # name. If you are running the client and server in different machines, set ALPHASERVER_HOSTNAME = hostname or ip address of server.
+# If you are running the server and client using skaffold, set ALPHASERVER_HOSTNAME = alphaserver (service name of deployed server)
 ALPHASERVER_HOSTNAME=localhost
 
 # set server Port number that client should connect to in ALPHASERVER_PORT
@@ -51,8 +52,7 @@ nvm install lts/dubnium
 npm install -g avn avn-nvm avn-n
 avn setup
 ```
-For Local containerized development, we use docker and docker-compose tool
-Please make sure both are installed in your machine
+**For Local containerized development, we use docker, docker-compose, skaffold and local kubernetes cluster. Please make sure to install all in your machine**
 
 The Alpha client uses linux rsyslog utility to collect auth logs when an ssh log-in attempt is made. So please make sure you have rsyslog service running in your client machine.
 In the event rsyslog is missing, it can be install with YUM on CentOS and RHEL.
@@ -119,6 +119,7 @@ For deploying the whole setup in local machine and automatically create server a
 
 #### Run the following single command to build docker images, run the server and 2 node client apps automatically
 
+##### Docker-Compose
 ```
 docker-compose up -d --scale alphaclient=2 --build
 ```
@@ -147,4 +148,17 @@ or from your local machine to one of the client
 ssh root@localhost -p <ssh port-number of the client app from docker-compose ps>
 ```
 
-Note: ssh to server is denied as sshd is not installed when running as server. 
+Note: ssh to server is denied as sshd is not installed when running as server.
+
+##### Skaffold - Cluster Deployment
+
+**Skaffold** is a tool that has many features, basically it helps in faster development, build, test, and deployment
+
+Run the following command in a terminal to deploy the Alpha server and Alpha client once in K8s cluster.
+```
+skaffold run
+```
+Run the following command in a terminal to deploy the Alpha server and Alpha client once in K8s cluster and watch logs of the deployment.
+```
+skaffold run -v=info --tail
+```

@@ -9,12 +9,13 @@ if(process.env.ALPHASERVER_PROTOCOL && process.env.ALPHASERVER_HOSTNAME && proce
 }else{
     AlphaServerHostName = "http://localhost:3000"
 }
-
+console.log("Trying to connect to server at "+ AlphaServerHostName)
 const 
     io = require ("socket.io-client"),
     socket = io.connect( AlphaServerHostName );
 
 socket.on("connect", () => {
+    console.log("Connected")
     socket.emit('client connected', hostname);
     var prev_data = ''; 
     const fs = require('fs');

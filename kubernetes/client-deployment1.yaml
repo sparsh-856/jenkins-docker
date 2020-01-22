@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alphaclient1
+  labels:
+    app: alphaclient1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alphaclient1
+  template:
+    metadata:
+      labels:
+        app: alphaclient1
+    spec:
+      containers:
+      - name: alphaclient
+        image: alphaclient
+        env:
+          - name: "ALPHASERVER_PROTOCOL"
+            value: "http"
+          - name: "ALPHASERVER_HOSTNAME"
+            value: "alphaserver"
+          - name: "ALPHASERVER_PORT"
+            value: "3000"
+          - name: "AUTH_LOG_FILE"
+            value: "/var/log/auth.log"
+        ports:
+          - name: ssh
+            containerPort: 22
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: alphaclient1
+ labels:
+  app: alphaclient1
+spec:
+ type: NodePort
+ ports:
+ - port: 22
+   targetPort: 22
+   name: ssh
+ selector:
+  app: alphaclient1
