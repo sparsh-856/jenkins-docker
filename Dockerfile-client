@@ -1,0 +1,25 @@
+FROM node:dubnium
+
+RUN apt-get update && \
+    apt-get install -y rsyslog sudo vim netcat ssh iputils-ping && \
+    mkdir /var/run/sshd && touch /var/log/auth.log \
+    chmod 0755 /var/run/sshd /var/log/auth.log
+
+# Create app directory
+RUN mkdir /app
+
+WORKDIR /app
+
+# Copy and install depedencies
+COPY package.json /app
+COPY package-lock.json /app
+
+RUN npm ci --production
+
+# Bundle app sources and add docker-compose .env file
+COPY . /app
+COPY .env.example /app/.env
+
+EXPOSE 3000 22
+
+CMD ./init.sh

@@ -23,8 +23,9 @@ ALPHASERVER_PROTOCOL=http
 
 # set server hostname that client app should connect to. 
 # Note: If you are running server and client in local machine, set ALPHASERVER_HOSTNAME = localhost. If running the setup using
-# docker-compose as shown in the later section of this Readme, set ALPHASERVER_HOSTNAME as the container name as shown below
-ALPHASERVER_HOSTNAME=alphasolution_alphaserver_1
+# docker-compose as shown in the later section of this Readme, set ALPHASERVER_HOSTNAME = alphasolution_alphaserver_1 as the container
+# name. If you are running the client and server in different machines, set ALPHASERVER_HOSTNAME = hostname or ip address of server.
+ALPHASERVER_HOSTNAME=localhost
 
 # set server Port number that client should connect to in ALPHASERVER_PORT
 ALPHASERVER_PORT=3000
@@ -33,6 +34,8 @@ ALPHASERVER_PORT=3000
 # and /var/log/auth.log for Debian based systems.
 AUTH_LOG_FILE=/var/log/auth.log
 ```
+
+For the Client app to start successfully, all the above env variables are mandatory. Also there should be a /var/log/secure or /var/log/auth.log file present before starting the client app.
 
 ## Install dependencies and prerequisites
 
@@ -51,7 +54,31 @@ avn setup
 For Local containerized development, we use docker and docker-compose tool
 Please make sure both are installed in your machine
 
-### Install the dependency packages:
+The Alpha client uses linux rsyslog utility to collect auth logs when an ssh log-in attempt is made. So please make sure you have rsyslog service running in your client machine.
+In the event rsyslog is missing, it can be install with YUM on CentOS and RHEL.
+```
+yum -y install rsyslog
+```
+Or rsyslog can be installed on Ubuntu or Debian with apt-get.
+```
+apt-get -y install rsyslog
+```
+Restart the rsyslog service to begin sending the logs to the /var/log directory.
+```
+service rsyslog restart
+```
+The Alpha client app watches log file created by rsyslog to collect metrics so please AUTH_LOG_FILE set as /var/log/auth.log for Debian based systems or set as /var/log/secure for RHEL based systems
+
+### Important note
+
+**There should be a /var/log/secure or /var/log/auth.log file present before starting the client app. If rsyslog is installed newly, these log files will not be created nor found. These files will be created by rsyslog only when there is log-in attempt or authentication attempt in the machine, hence the client app will fail to start if the files are not found. To overcome this, we manually create those files in those location before starting the client app.**
+
+```
+touch /var/log/auth.log /var/log/secure
+```
+**The Alpha client also need to be run as root/sudo user as the app will need permissions to read the log files from /var/log.**
+
+## Install the dependency packages:
 
 ```
 npm install
@@ -65,17 +92,20 @@ Start the server...
 npm start server
 ```
 
-In another terminal window start the client app...
+In another terminal window or in another machine or in another node, start the client app...
 
 ```
 npm run client
 ```
 
 You can run any number of clients by running the above command in new terminals.
+If you are running the client in another machine or node, make sure to set the server hostname in ALPHASERVER_HOSTNAME and ALPHASERVER_PORT environment variable.
 
 ## Development
 
 Most development is in JavaScript, and can be done in any editor or IDE.
+Commit-lint, a npm package that lints the commit message nad helps in following commit standards is used in this application development.
+Also commitizen is used to provide a cli for commit standards to choose from. However, git command line tool is used most of the time for commiting changes with following commit standards.
 
 ## Test
 

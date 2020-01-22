@@ -1,3 +1,9 @@
 node_modules
 auth.log
 .env
+#--- IntelliJ (IDE)
+/.idea/
+#--- OSX, swap files, etc.
+.DS_Store
+#--- VSCode (IDE)
+/.vscode/
