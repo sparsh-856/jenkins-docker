@@ -26,6 +26,10 @@ socket.on("connect", () => {
     stream.on('data', buffer => {
   
         curr_data = buffer.toString();
+        if (curr_data && !prev_data){
+            prev_data = curr_data;
+        }
+        else{
         console.log(curr_data);
         if (prev_data.includes('Failed none') && curr_data.includes('Connection closed')){
             numberOfAttpemts = numberOfAttpemts + 1;
@@ -48,6 +52,7 @@ socket.on("connect", () => {
             socket.emit('attempts',numberOfAttpemts);
         }
         prev_data = curr_data;
+        }
 
     });
     stream.on('close', () => {
